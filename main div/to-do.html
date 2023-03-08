@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot; crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css&quot; rel="stylesheet" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js&quot; crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="asset/css/app.css">
+</head>
+<body>
+
+    <div class="container" >
+        
+        <h2>To-Do List <i class="fa fa-plus"></i></h2>
+        <input type="text" placeholder="Enter To-Do" class="todoinput">
+        <ul>
+            <li>
+                <span class="left">
+                    <i class="fa fa-trash"></i>
+                </span> 
+                <span class="text">
+                    Buy bananas
+                </span>
+                <span class="right">
+                    <i class="fa fa-pencil"></i>
+                </span>
+            </li>
+            <li>
+                <span class="left">
+                    <i class="fa fa-trash"></i>
+                </span> 
+                <span class="text">
+                    Call Bakery
+                </span>
+                <span class="right"><i class="fa fa-pencil"></i>
+                </span>
+            </li>
+            <li>
+                <span class="left">
+                    <i class="fa fa-trash"></i>
+                </span>
+                <span class="text">
+                    Print list
+                </span>
+                <span class="right">
+                    <i class="fa fa-pencil"></i>
+                </span>
+            </li>
+        </ul>
+    </div>
+
+    <script type="text/javascript" src="asset/js/todos.js"></script>
+    <script>$(".todoinput").keypress(function(event) {
+        if(event.which === 13) {
+            if($(this).val()==="") return;
+            $("ul").prepend("<li><span class='left'><i class='fa fa-trash'></i></span>  "+$(this).val()+"<span class='right'><i class='fa fa-pencil'></li>");
+            $(this).val("");
+        }
+    });
+    
+    $(".fa-plus").on("click", function() {
+        $("input").slideToggle();
+    });
+    
+    $("ul").on("click", "span.text", function(event) {
+        $(this).toggleClass("completed");
+    });
+    
+    $("ul").on("click", "span.left", function(event) {
+        $(this).parent().fadeOut(100, function(){
+            $(this).remove();
+        });
+        event.stopPropagation();
+    });
+    
+    $("ul").on("click", "span.right", function(event) {
+        var parent = $(this).parent();
+        var oldVal = parent.text();
+        parent.html("<input type='text' class='editinput'>");
+        $(".editinput").keypress(function(e) {
+            if(e.which === 13) {
+                if($(this).val() === "") {
+                    parent.html("<span class='left'><i class='fa fa-trash'></i></span><span class='text'>  "+oldVal+"</span><span class='right'><i class='fa fa-pencil'>"); 
+                }
+                else {
+                    var newVal = $(this).val();
+                    parent.html("<span class='left'><i class='fa fa-trash'></i></span><span class='text'>  "+newVal+"</span><span class='right'><i class='fa fa-pencil'>");
+                }
+            }
+            e.stopPropagation();
+        });
+        event.stopPropagation();
+    });</script>
+</body>
+</html>
